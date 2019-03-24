@@ -20,10 +20,12 @@ export class ListCurrency extends Component {
         {this.props.currenciesHasAdded.map(e => (
           <li key={e}>
             <section>
-              <div>{e} | {this.convertFromRates(e)}</div>
+              <div className="box-list-head"><h4>{e}</h4><p>{this.convertFromRates(e)}</p></div>
               <div>1 {this.props.baseCurrency} = {e} {this.props.rates[e]}</div>
             </section>
-            <button onClick={() => this.removeCurrency(e)}>Remove</button>
+            <button
+              className="btn btn-danger"
+              onClick={() => this.removeCurrency(e)}>X</button>
           </li>
         ))}
       </ul>

@@ -39,22 +39,34 @@ export class AddCurrency extends Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.currenciesHasAdded !== this.props.currenciesHasAdded) {
+      this.filterCurrencies(this.state.currency)
+    }
+  }
+
   render() {
     return (
-      <div>
+      <div className="add-box">
         {!this.state.addMode ?
           <button
+            className="btn btn-warning"
+            disabled={this.state.currencyOptions.length < 1}
             onClick={this.changeMode}
           >Add Currency</button> :
-          <div>
-            <select onChange={this.changeCurrency}>
+          <section>
+            <select
+              className="form-control"
+              onChange={this.changeCurrency}>
               <option>Please Select</option>
               {this.state.currencyOptions.map(e => (
                 <option key={e} value={e}>{e}</option>
               ))}
             </select>
-            <button onClick={this.submitCurrency}>Submit</button>
-          </div>
+            <button
+              className="btn btn-warning"
+              onClick={this.submitCurrency}>Submit</button>
+          </section>
 
         }
       </div>
@@ -68,8 +80,7 @@ const mapStateToProps = (state) => ({
 
 
 const mapDispatchToProps = (dispatch) => ({
-  addCurrency: (key) => (dispatch(currencies.addCurrency(key))),
-  removeCurrency: (key) => (dispatch(currencies.removeCurrency(key)))
+  addCurrency: (key) => (dispatch(currencies.addCurrency(key)))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddCurrency)

@@ -28,6 +28,7 @@ export class HeaderForex extends Component {
           <div>{this.props.baseCurrency}</div>
           <div>
             <input
+              className="form-control"
               onChange={this.changeBaseCurrencyValue}
               value={this.props.baseCurrencyValue}
             />
