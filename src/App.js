@@ -25,7 +25,7 @@ export class App extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchRates: (base) => (dispatch(rates.fetchRates()))
+  fetchRates: (base) => (dispatch(rates.fetchRates(base)))
 })
 
 export default connect(null, mapDispatchToProps)(App)
