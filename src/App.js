@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import HeaderForex from './components/HeaderForex'
 import AddCurrency from './components/AddCurrency'
@@ -9,9 +8,6 @@ import { rates } from './actions/rates'
 import './App.css'
 
 export class App extends Component {
-  // static propTypes = {
-  //   prop: PropTypes
-  // }
 
   componentWillMount() {
     this.props.fetchRates()
@@ -28,12 +24,8 @@ export class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-
-})
-
 const mapDispatchToProps = (dispatch) => ({
   fetchRates: (base) => (dispatch(rates.fetchRates()))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(null, mapDispatchToProps)(App)

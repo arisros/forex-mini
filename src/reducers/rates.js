@@ -16,7 +16,6 @@ export const rates = (state = initialState, action) => {
       }
 
     case ratesConstant.RATES_SUCCESS:
-      console.log(action.payload.rates)
       return {
         ...state,
         loading: false,

@@ -7,10 +7,12 @@
 }
 
 .sub-header {
-  margin-top: 1em;
   display: flex;
   justify-content: space-between;
   color: white;
+}
+.header h2 {
+  margin: 0;
 }
 .header p {
   color: white;

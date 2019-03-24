@@ -18,9 +18,10 @@ const listCurrency = [
 export class AddCurrency extends Component {
   constructor() {
     super()
+
     this.state = { addMode: false, currency: '', currencyOptions: listCurrency }
     this.changeMode = () => { this.setState({ addMode: true }) }
-    this.changeCurrency = (e) => { this.setState({ currency: e.target.value }) }
+    this.changeCurrency = e => { this.setState({ currency: e.target.value }) }
 
     this.submitCurrency = () => {
       if (this.state.currency) {
@@ -32,14 +33,19 @@ export class AddCurrency extends Component {
       }
     }
 
-    this.filterCurrencies = (key) => {
-      let filterFromRedux = listCurrency.filter(function (e) { return this.indexOf(e) < 0 }, this.props.currenciesHasAdded)
+    this.filterCurrencies = key => {
+      /* remove options if has added to the list */
+      let filterFromRedux = listCurrency.filter(function (e) {
+        return this.indexOf(e) < 0
+      }, this.props.currenciesHasAdded)
+
+      /* filter with {key} */
       let currencyOptions = filterFromRedux.filter(e => e !== key)
       this.setState({ currencyOptions })
     }
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps) {
     if (prevProps.currenciesHasAdded !== this.props.currenciesHasAdded) {
       this.filterCurrencies(this.state.currency)
     }
@@ -74,13 +80,13 @@ export class AddCurrency extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currenciesHasAdded: state.currencies.list
 })
 
 
-const mapDispatchToProps = (dispatch) => ({
-  addCurrency: (key) => (dispatch(currencies.addCurrency(key)))
+const mapDispatchToProps = dispatch => ({
+  addCurrency: key => (dispatch(currencies.addCurrency(key)))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddCurrency)

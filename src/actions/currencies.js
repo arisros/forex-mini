@@ -1,8 +1,6 @@
 export const currenciesConstant = {
   ADD_CURRENCY: 'ADD_CURRENCY',
-  REMOVE_CURRENCY: 'REMOVE_CURRENCY',
-  ADD_OPTIONS: 'ADD_OPTIONS',
-  REMOVE_OPTIONS: ''
+  REMOVE_CURRENCY: 'REMOVE_CURRENCY'
 }
 
 export const currencies = {
@@ -10,31 +8,31 @@ export const currencies = {
   removeCurrency
 }
 
+/**
+ *
+ * @param {string} key of currency
+ * @example 'USD' | 'IDR'
+ */
 function addCurrency(key) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({
       type: currenciesConstant.ADD_CURRENCY,
-      payload: key
-    })
-
-    dispatch({
-      type: currenciesConstant.REMOVE_OPTIONS,
       payload: key
     })
   }
 }
 
+/**
+ *
+ * @param {string} key of currency
+ * @example 'USD' | 'IDR'
+ */
 function removeCurrency(key) {
   return (dispatch, getState) => {
     let newCurrencies = getState().currencies.list.filter(e => e !== key)
     dispatch({
       type: currenciesConstant.REMOVE_CURRENCY,
       payload: newCurrencies
-    })
-
-    dispatch({
-      type: currenciesConstant.ADD_OPTIONS,
-      payload: key
     })
   }
 }

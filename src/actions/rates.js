@@ -10,6 +10,11 @@ export const rates = {
   fetchRates
 }
 
+/**
+ *
+ * @param {string} key of currency
+ * @example 'USD' | 'IDR'
+ */
 function fetchRates(base) {
   return (dispatch) => {
     dispatch(request())

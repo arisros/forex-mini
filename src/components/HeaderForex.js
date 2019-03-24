@@ -16,16 +16,16 @@ export class HeaderForex extends Component {
   }
 
   componentWillMount() {
-    this.props.setBaseCurrency('USD')
+    this.props.setBaseCurrency('IDR')
     this.props.setBaseCurrencyValue(10)
   }
 
   render() {
     return (
       <header className="header">
-        <p>{this.props.baseCurrency} - United State Dollars</p>
+        {/* <p>{this.props.baseCurrency} -  United State Dollars</p> */}
         <div className="sub-header">
-          <div>{this.props.baseCurrency}</div>
+          <h2>{this.props.baseCurrency}</h2>
           <div>
             <input
               className="form-control"
@@ -39,14 +39,16 @@ export class HeaderForex extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   baseCurrency: state.baseCurrency.baseCurrency,
   baseCurrencyValue: state.baseCurrency.baseCurrencyValue
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  setBaseCurrency: (currency) => dispatch(baseCurrency.setBaseCurrency(currency)),
-  setBaseCurrencyValue: (value) => dispatch(baseCurrency.setBaseCurrencyValue(value))
+const mapDispatchToProps = dispatch => ({
+  setBaseCurrency: currency =>
+    dispatch(baseCurrency.setBaseCurrency(currency)),
+  setBaseCurrencyValue: value =>
+    dispatch(baseCurrency.setBaseCurrencyValue(value))
 })
 
 HeaderForex.propTypes = {
