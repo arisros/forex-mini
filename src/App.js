@@ -1,28 +1,39 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+// import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import HeaderForex from './components/HeaderForex'
+import AddCurrency from './components/AddCurrency'
+import ListCurrency from './components/ListCurrency'
+import { rates } from './actions/rates'
 
-class App extends Component {
+import './App.css'
+
+export class App extends Component {
+  // static propTypes = {
+  //   prop: PropTypes
+  // }
+
+  componentWillMount() {
+    this.props.fetchRates()
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+      <React.Fragment>
+        <HeaderForex />
+        <ListCurrency />
+        <AddCurrency />
+      </React.Fragment>
+    )
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchRates: (base) => (dispatch(rates.fetchRates()))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

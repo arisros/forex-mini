@@ -31,3 +31,43 @@
     transform: rotate(360deg);
   }
 }
+
+
+.header {
+  background: green;
+  padding: 1em;
+}
+
+.sub-header {
+  margin-top: 1em;
+  display: flex;
+  justify-content: space-between;
+  color: white;
+}
+.header p {
+  color: white;
+  margin: 0;
+}
+
+
+ul.box-list, ul.box-list li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+ul.box-list {
+  padding: 0.5em;
+}
+
+ul.box-list li{
+  margin-bottom: 0.5em;
+  padding: 0.5em;
+  border: 1px solid grey;
+  display: flex;
+  justify-content: space-between;
+}
+.box-list section {
+  /* display: flex; */
+
+}
