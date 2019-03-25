@@ -1,7 +1,7 @@
 import { ratesConstant } from '../actions/rates'
 
 const initialState = {
-  list: [],
+  list: {},
   error: false,
   loading: false
 }

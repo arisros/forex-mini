@@ -1,50 +1,46 @@
-import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { currencies } from '../actions/currencies'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { numberWithCommas } from '../utils/formatNumber'
 
-export class ListCurrency extends Component {
-  constructor() {
-    super()
-    this.removeCurrency = (key) => this.props.removeCurrency(key)
+const ListCurrency = (props) => {
+  const convertFromRates = (key) => {
+    try {
+      const convert = props.rates[key] * props.base
+      if (!isNaN(convert)) return numberWithCommas(convert)
+      throw new Error('Cant find rates')
+    } catch (error) {
+      return `Can't find rates ${key}`
+    }
   }
-
-  convertFromRates(currency) {
-    return numberWithCommas(this.props.rates[currency] * this.props.base)
-  }
-
-  render() {
-    return (
-      <ul className="box-list">
-        {this.props.currenciesHasAdded.map(e => (
-          <li key={e}>
-            <section>
-              <div className="box-list-head">
-                <h4>{e}</h4>
-                <p>{this.convertFromRates(e)}</p>
-              </div>
-              <div>1 {this.props.baseCurrency} = {e} {this.props.rates[e]}</div>
-            </section>
-            <button
-              className="btn btn-danger"
-              onClick={() => this.removeCurrency(e)}>X</button>
-          </li>
-        ))}
-      </ul>
-    )
-  }
+  return (
+    <ul className="box-list">
+      {props.list.map(e => (
+        <li key={e}>
+          <section>
+            <div className="box-list-head">
+              <h4>{e}</h4>
+              <p>{convertFromRates(e)}</p>
+            </div>
+            <div>
+              1 {props.baseCurrency} = {e}
+              <b>{!props.rates[e] ? `can't find` : props.rates[e]}</b>
+            </div>
+          </section>
+          <button
+            className="btn btn-danger"
+            onClick={() => props.removeCurrency(e)}>X</button>
+        </li>
+      ))}
+    </ul>
+  )
 }
 
-const mapStateToProps = state => ({
-  currenciesHasAdded: state.currencies.list,
-  rates: state.rates.list,
-  base: state.baseCurrency.baseCurrencyValue,
-  baseCurrency: state.baseCurrency.baseCurrency
-})
+ListCurrency.propTypes = {
+  list: PropTypes.array,
+  rates: PropTypes.object.isRequired,
+  base: PropTypes.number.isRequired,
+  baseCurrency: PropTypes.string,
+  removeCurrency: PropTypes.func.isRequired
+}
 
-const mapDispatchToProps = dispatch => ({
-  removeCurrency: key => (dispatch(currencies.removeCurrency(key)))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ListCurrency)
+export default ListCurrency

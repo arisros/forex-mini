@@ -22,6 +22,7 @@ export class App extends Component {
 
     this.changeMode = () => this.setState({ addMode: true })
     this.changeCurrency = e => this.setState({ currency: e.target.value })
+    this.removeCurrency = (key) => this.props.removeCurrency(key)
 
     this.submitCurrency = () => {
       if (this.state.currency) {
@@ -62,7 +63,12 @@ export class App extends Component {
     return (
       <React.Fragment>
         <HeaderForex />
-        <ListCurrency />
+        <ListCurrency
+          list={this.props.currenciesHasAdded}
+          rates={this.props.rates}
+          baseCurrency={this.props.baseCurrency}
+          base={this.props.base}
+          removeCurrency={this.removeCurrency} />
         <AddCurrency
           changeMode={this.changeMode}
           changeCurrency={this.changeCurrency}
@@ -75,12 +81,16 @@ export class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  currenciesHasAdded: state.currencies.list
+  base: state.baseCurrency.baseCurrencyValue,
+  baseCurrency: state.baseCurrency.baseCurrency,
+  currenciesHasAdded: state.currencies.list,
+  rates: state.rates.list,
 })
 
 const mapDispatchToProps = (dispatch) => ({
   fetchRates: (base) => (dispatch(rates.fetchRates(base))),
-  addCurrency: key => (dispatch(currencies.addCurrency(key)))
+  addCurrency: key => (dispatch(currencies.addCurrency(key))),
+  removeCurrency: key => (dispatch(currencies.removeCurrency(key)))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
