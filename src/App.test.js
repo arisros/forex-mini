@@ -1,11 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import Adapter from 'enzyme-adapter-react-16';
+import { shallow, configure } from 'enzyme';
 import App from './App';
 
-describe('App', () => {
-  it('renders without crashing', () => {
-    const div = document.createElement('div');
-    ReactDOM.render(<App />, div);
-    ReactDOM.unmountComponentAtNode(div);
+configure({ adapter: new Adapter() });
+
+describe('App Component Test', () => {
+  it('should render correctly in "debug" mode', () => {
+    const component = shallow(<App debug />);
+    expect(component).toMatchSnapshot();
   });
-})
+});
