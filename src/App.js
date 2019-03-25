@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import HeaderForex from './components/HeaderForex'
 import AddCurrency from './components/AddCurrency'
@@ -25,34 +26,38 @@ export class App extends Component {
     this.changeCurrency = e => this.setState({ currency: e.target.value })
     this.removeCurrency = (key) => this.props.removeCurrency(key)
 
-    this.submitCurrency = () => {
-      if (this.state.currency) {
-        this.props.addCurrency(this.state.currency)
-        this.setState({ addMode: false })
-        this.filterOptions(this.state.currency)
+    this.submitCurrency = this.submitCurrency.bind(this)
+    this.filterOptions = this.filterOptions.bind(this)
+    this.changeBaseCurrencyValue = this.changeBaseCurrencyValue.bind(this)
 
-        this.setState({ currency: null })
-      }
+  }
+  submitCurrency() {
+    if (this.state.currency) {
+      this.props.addCurrency(this.state.currency)
+      this.setState({ addMode: false })
+      this.filterOptions(this.state.currency)
+
+      this.setState({ currency: null })
     }
+  }
 
-    this.filterOptions = key => {
-      /* remove options if has added to the list */
-      let filterFromRedux = listCurrency.filter(function (e) {
-        return this.indexOf(e) < 0
-      }, this.props.currenciesHasAdded)
+  filterOptions(key) {
+    /* remove options if has added to the list */
+    let filterFromRedux = listCurrency.filter(function (e) {
+      return this.indexOf(e) < 0
+    }, this.props.currenciesHasAdded)
 
-      /* filter with {key} */
-      let currencyOptions = filterFromRedux.filter(e => e !== key)
-      this.setState({ currencyOptions })
+    /* filter with {key} */
+    let currencyOptions = filterFromRedux.filter(e => e !== key)
+    this.setState({ currencyOptions })
+  }
+
+  changeBaseCurrencyValue(e) {
+    /* check if enter number */
+    if (parseInt(e.target.value) > -1) {
+      this.props.setBaseCurrencyValue(parseInt(e.target.value))
     }
-
-    this.changeBaseCurrencyValue = e => {
-      if (parseInt(e.target.value) > -1) {
-        this.props.setBaseCurrencyValue(parseInt(e.target.value))
-      }
-      return false
-    }
-
+    return false
   }
 
   componentWillMount() {
@@ -107,5 +112,12 @@ const mapDispatchToProps = (dispatch) => ({
   setBaseCurrencyValue: value =>
     dispatch(baseCurrency.setBaseCurrencyValue(value))
 })
+
+App.propTypes = {
+  base: PropTypes.number,
+  baseCurrency: PropTypes.string,
+  currenciesHasAdded: PropTypes.array,
+  rates: PropTypes.object,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
