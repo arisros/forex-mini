@@ -6,6 +6,7 @@ import ListCurrency from './components/ListCurrency'
 import { rates } from './actions/rates'
 import { listCurrency } from './constants/list'
 import { currencies } from './actions/currencies'
+import { baseCurrency } from './actions/baseCurrency'
 
 import './App.css'
 
@@ -45,12 +46,19 @@ export class App extends Component {
       this.setState({ currencyOptions })
     }
 
+    this.changeBaseCurrencyValue = e => {
+      if (parseInt(e.target.value) > -1) {
+        this.props.setBaseCurrencyValue(parseInt(e.target.value))
+      }
+      return false
+    }
+
   }
-
-
 
   componentWillMount() {
     this.props.fetchRates()
+    this.props.setBaseCurrency('USD')
+    this.props.setBaseCurrencyValue(10)
   }
 
   componentDidUpdate(prevProps) {
@@ -62,12 +70,15 @@ export class App extends Component {
   render() {
     return (
       <React.Fragment>
-        <HeaderForex />
+        <HeaderForex
+          base={this.props.base}
+          baseCurrency={this.props.baseCurrency}
+          changeBaseCurrencyValue={this.changeBaseCurrencyValue} />
         <ListCurrency
+          base={this.props.base}
+          baseCurrency={this.props.baseCurrency}
           list={this.props.currenciesHasAdded}
           rates={this.props.rates}
-          baseCurrency={this.props.baseCurrency}
-          base={this.props.base}
           removeCurrency={this.removeCurrency} />
         <AddCurrency
           changeMode={this.changeMode}
@@ -90,7 +101,11 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchRates: (base) => (dispatch(rates.fetchRates(base))),
   addCurrency: key => (dispatch(currencies.addCurrency(key))),
-  removeCurrency: key => (dispatch(currencies.removeCurrency(key)))
+  removeCurrency: key => (dispatch(currencies.removeCurrency(key))),
+  setBaseCurrency: currency =>
+    dispatch(baseCurrency.setBaseCurrency(currency)),
+  setBaseCurrencyValue: value =>
+    dispatch(baseCurrency.setBaseCurrencyValue(value))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

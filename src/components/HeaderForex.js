@@ -1,59 +1,30 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { baseCurrency } from '../actions/baseCurrency'
 
-export class HeaderForex extends Component {
-
-  constructor() {
-    super()
-    this.changeBaseCurrencyValue = e => {
-      if (parseInt(e.target.value) > -1) {
-        this.props.setBaseCurrencyValue(parseInt(e.target.value))
-      }
-      return false
-    };
-  }
-
-  componentWillMount() {
-    this.props.setBaseCurrency('IDR')
-    this.props.setBaseCurrencyValue(10)
-  }
-
-  render() {
-    return (
-      <header className="header">
-        {/* <p>{this.props.baseCurrency} -  United State Dollars</p> */}
-        <div className="sub-header">
-          <h2>{this.props.baseCurrency}</h2>
-          <div>
-            <input
-              className="form-control"
-              onChange={this.changeBaseCurrencyValue}
-              value={this.props.baseCurrencyValue}
-            />
-          </div>
+const HeaderForex = (props) => {
+  return (
+    <header className="header">
+      {/* todo: dynamic title? */}
+      {/* <p>{props.baseCurrency} -  United State Dollars</p> */}
+      <div className="sub-header">
+        <h2>{props.baseCurrency}</h2>
+        <div>
+          <input
+            className="form-control"
+            onChange={props.changeBaseCurrencyValue}
+            value={props.base}
+          />
         </div>
-      </header>
-    )
-  }
+      </div>
+    </header>
+  )
 }
 
-const mapStateToProps = state => ({
-  baseCurrency: state.baseCurrency.baseCurrency,
-  baseCurrencyValue: state.baseCurrency.baseCurrencyValue
-})
-
-const mapDispatchToProps = dispatch => ({
-  setBaseCurrency: currency =>
-    dispatch(baseCurrency.setBaseCurrency(currency)),
-  setBaseCurrencyValue: value =>
-    dispatch(baseCurrency.setBaseCurrencyValue(value))
-})
-
 HeaderForex.propTypes = {
+  base: PropTypes.number,
   baseCurrency: PropTypes.string,
-  baseCurrencyValue: PropTypes.number
+  changeBaseCurrencyValue: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderForex)
+export default HeaderForex
+
